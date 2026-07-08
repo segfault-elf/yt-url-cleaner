@@ -3,7 +3,7 @@ Cleans YouTube URLs from trackers automatically.
 
 # Features:
 - turns youtu.be links into youtube.com (YouTube does this automatically but seeing as it's local it's faster)
-- removes `si`, `feature` and `is`, `utm_*` URL paramaters for privacy
+- removes `si`, `is`, `feature`, `utm_*` URL paramaters for privacy
 
 that's mostly it...
 

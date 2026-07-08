@@ -19,13 +19,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 function goToYouTube(url) {
-  const m = url.match(/youtu\.be\/([^?&#/]+)/);
-  const videoId = m ? m[1] : null;
-  if (!videoId) return null;
+    const m = url.match(/youtu\.be\/([^?&#/]+)/);
+    const videoId = m ? m[1] : null;
+    if (!videoId) return null;
 
-  return `https://youtube.com/watch?v=${encodeURIComponent(videoId)}`;
+    return `https://youtube.com/watch?v=${encodeURIComponent(videoId)}`;
 }
 
 function removeTrackingParams(url) {
-  return url.replace(/&(si|feature|is)=[^&]*/g, '');
+    return url.replace(/&(si|feature|is|utm_[^=]+)=[^&]*/g, '');
 }

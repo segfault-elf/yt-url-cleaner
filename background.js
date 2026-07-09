@@ -18,14 +18,35 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
 });
 
-function goToYouTube(url) {
-    const m = url.match(/youtu\.be\/([^?&#/]+)/);
-    const videoId = m ? m[1] : null;
-    if (!videoId) return null;
+function goToYouTube(input) {
+    const url = new URL(input);
 
-    return `https://youtube.com/watch?v=${encodeURIComponent(videoId)}`;
+    const videoId = url.pathname.slice(1);
+    if (!videoId) return input;
+
+    const clean = new URL("https://www.youtube.com/watch");
+    clean.searchParams.set("v", videoId);
+
+    for (const key of url.searchParams.keys()) {
+        if (key.startsWith("utm_") || ["si", "feature", "is"].includes(key)) {
+            continue;
+        }
+        clean.searchParams.set(key, url.searchParams.get(key));
+    }
+
+    return clean.toString();
 }
 
-function removeTrackingParams(url) {
-    return url.replace(/&(si|feature|is|utm_[^=]+)=[^&]*/g, '');
+function removeTrackingParams(input) {
+    const url = new URL(input);
+
+    const trackers = ["si", "feature", "is"];
+
+    for (const key of [...url.searchParams.keys()]) {
+        if (key.startsWith("utm_") || trackers.includes(key)) {
+            url.searchParams.delete(key);
+        }
+    }
+
+    return url.toString();
 }
